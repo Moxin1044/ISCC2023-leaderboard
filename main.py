@@ -46,7 +46,7 @@ for i in range(1, n + 1):
             rlist.append(info)
         else:
             info = {"ID": i, "名称": team_name, "积分": "0", "排名": "0"}
-            qqprint(info)
+            print(info)
             rlist.append(info)
 
 # 按照排名的方式保存为xlsx
