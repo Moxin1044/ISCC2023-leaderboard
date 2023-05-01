@@ -42,11 +42,11 @@ for i in range(1, n + 1):
             total_points = int(match.group(1))
             rank = int(match.group(2))
             info = {"ID": i, "名称": team_name, "积分": total_points, "排名": rank}
-            # print(info)
+            print(info)
             rlist.append(info)
         else:
             info = {"ID": i, "名称": team_name, "积分": "0", "排名": "0"}
-            # print(info)
+            qqprint(info)
             rlist.append(info)
 
 # 按照排名的方式保存为xlsx
@@ -91,11 +91,11 @@ for i in range(1, n + 1):
             total_points = int(match.group(1))
             rank = int(match.group(2))
             info = {"ID": i, "名称": team_name, "积分": total_points, "排名": rank}
-            # print(info)
+            print(info)
             r1list.append(info)
         else:
             info = {"ID": i, "名称": team_name, "积分": "0", "排名": "0"}
-            # print(info)
+            print(info)
             r1list.append(info)
 
 
