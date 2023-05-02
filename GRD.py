@@ -37,7 +37,7 @@ for i in range(1, n + 1):
     h3_tag = soup.find('h3', {'class': 'text-center'})
     if h1_tag is not None:
         team_name = h1_tag.text
-        if team_name[:3] == "GRD-":
+        if team_name[:4] == "GRD-":
             h3_tag_text = h3_tag.text
             pattern = r'总积分为:(\d+),排在(\d+)位。'
             match = re.search(pattern, h3_tag_text)
@@ -87,7 +87,7 @@ for i in range(1, n + 1):
     h3_tag = soup.find('h3', {'class': 'text-center'})
     if h1_tag is not None:
         team_name = h1_tag.text
-        if team_name[:3] == "GRD-":
+        if team_name[:4] == "GRD-":
             h3_tag_text = h3_tag.text
             pattern = r'总积分为:(\d+),排在(\d+)位。'
             match = re.search(pattern, h3_tag_text)
