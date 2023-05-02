@@ -1,6 +1,8 @@
-import requests
 import re
+import requests
+from requests.adapters import Retry
 from bs4 import BeautifulSoup
+from requests.exceptions import Timeout
 import pandas as pd
 # 单独跑大学生赛区
 
@@ -26,12 +28,28 @@ print("【欢迎】：脚本已启动，欢迎使用！ 懒得写多线程了，
 # url_template = "https://iscc.isclab.org.cn/teamarena/{}" # 擂台赛接口
 url_template = "https://iscc.isclab.org.cn/team/{}"
 n = 4300
+delay = 0.5  # 等待0.5秒后重试
+
+retry_strategy = Retry(
+    total=3, # 最多重试3次
+    backoff_factor=delay,
+    status_forcelist=[500, 502, 503, 504],
+    allowed_methods=["HEAD", "GET", "OPTIONS"]
+)
 
 # 循环访问URL并检查是否存在指定的<h1>标签
 rlist = []
 for i in range(1, n + 1):
     url = url_template.format(i)
-    response = requests.get(url)
+    session = requests.Session()
+    session.mount("https://", requests.adapters.HTTPAdapter(max_retries=retry_strategy))
+    try:
+        response = session.get(url, timeout=2)
+        response.raise_for_status()
+    except Timeout:
+        print("请求超时，等待{}秒后重试".format(delay))
+        response = session.get(url, timeout=2)
+        response.raise_for_status()
     soup = BeautifulSoup(response.text, 'html.parser')
     h1_tag = soup.find('h1', {'id': 'team-id'})
     h3_tag = soup.find('h3', {'class': 'text-center'})
@@ -81,7 +99,15 @@ leitai_url_template = "https://iscc.isclab.org.cn/teamarena/{}" # 擂台赛接�
 r1list = []
 for i in range(1, n + 1):
     url = leitai_url_template.format(i)
-    response = requests.get(url)
+    session = requests.Session()
+    session.mount("https://", requests.adapters.HTTPAdapter(max_retries=retry_strategy))
+    try:
+        response = session.get(url, timeout=2)
+        response.raise_for_status()
+    except Timeout:
+        print("请求超时，等待{}秒后重试".format(delay))
+        response = session.get(url, timeout=2)
+        response.raise_for_status()
     soup = BeautifulSoup(response.text, 'html.parser')
     h1_tag = soup.find('h1', {'id': 'team-id'})
     h3_tag = soup.find('h3', {'class': 'text-center'})
