@@ -71,7 +71,7 @@ df["ID"] = pd.to_numeric(df["ID"])
 # 按照排名排序
 df = df.sort_values("ID")
 # 将 DataFrame 写入 Excel 文件
-writer = pd.ExcelWriter("2023-ISCC-练武题排行榜（ID顺序）.xlsx", engine="xlsxwriter")
+writer = pd.ExcelWriter("2023-ISCC-河南赛区-练武题排行榜（ID顺序）.xlsx", engine="xlsxwriter")
 df.to_excel(writer, index=False, sheet_name="Teams")
 writer.close()
 print("【注意】：2023-ISCC-河南赛区-练武题排行榜（ID顺序）.xlsx 已生成")
